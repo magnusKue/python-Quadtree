@@ -55,20 +55,27 @@ class Quadtree:
             elif self.bR.inBounds(point):
                 self.bR.insert(point)
             else:
-                print(f"point escaped: {point.x} :: {point.y}")
+                print(f"point escaped: {point.x-self.bounds.x} :: {point.y-self.bounds.y}")
 
 
     def inBounds(self, point:pygame.Vector2): # check if point is in bounds
-        return self.bounds.collidepoint(point)
+        return  point.x >= self.bounds.left and \
+                point.x <= self.bounds.right and \
+                point.y >= self.bounds.top and \
+                point.y <= self.bounds.bottom
     
-    def draw(self, surf): # for visualization, optional
-        
-        pygame.draw.rect(surf, self.color, self.bounds, 1)
+    def draw(self, surf, col=None): # for visualization, optional
+        if col == None:
+            color = self.color
+        pygame.draw.rect(surf, color, self.bounds, 1)
         if self.isSubdivided:
-            self.bL.draw(surf)
-            self.bR.draw(surf)
-            self.tL.draw(surf)
-            self.tR.draw(surf)
+            self.bL.draw(surf, col)
+            self.bR.draw(surf, col)
+            self.tL.draw(surf, col)
+            self.tR.draw(surf, col)
 
         for point in self.points:
-            pygame.draw.circle(surf, self.color, point, 4)
+            pygame.draw.circle(surf, color, point, 4)
+
+    def query(rect:pygame.Rect):
+        pass
